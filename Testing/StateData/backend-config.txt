@@ -1,4 +1,4 @@
 storage_account_name = "aspfatestlearntfwest"
 container_name = "terraform-state"
 key = "testing-stateData_terraform.tfstate"
-sas_token = "SAS_TOKEN"
+sas_token = "sv=2022-11-02&ss=b&srt=sco&sp=rwdlaciytfx&se=2026-10-22T20:41:21Z&st=2024-10-22T20:41:21Z&spr=https&sig=n7Ydwfu7ARRPiOuMnfxnfBeQkLNYubAqWjKdyImIPEo%3D"
