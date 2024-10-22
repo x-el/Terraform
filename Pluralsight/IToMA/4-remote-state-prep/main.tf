@@ -17,11 +17,12 @@ terraform {
 
 variable "resource_group_name" {
   type = string
+  default = "Test-Learn-Terraform-WE"
 }
 
 variable "location" {
   type    = string
-  default = "eastus"
+  default = "westeurope"
 }
 
 variable "naming_prefix" {

@@ -46,3 +46,67 @@ resource "azurerm_key_vault" "aspfatesttfakv" {
     virtual_network_subnet_ids = []
   }
 }
+
+resource "azurerm_storage_account" "stateStorageAccount" {
+  name                     = var.stateStorageAccountName
+  resource_group_name      = var.resourceGroupName
+  location                 = var.resourceLocation
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+
+}
+
+resource "azurerm_storage_container" "stateContainer" {
+  name                 = var.stateContainerName
+  storage_account_name = var.stateStorageAccountName
+
+}
+
+data "azurerm_storage_account_sas" "stateSasToken" {
+  connection_string = azurerm_storage_account.stateStorageAccount.primary_connection_string
+  https_only        = true
+
+  resource_types {
+    service   = true
+    container = true
+    object    = true
+  }
+
+  services {
+    blob  = true
+    queue = false
+    table = false
+    file  = false
+  }
+
+  start  = timestamp()
+  expiry = timeadd(timestamp(), "17520h")
+
+  permissions {
+    read    = true
+    write   = true
+    delete  = true
+    list    = true
+    add     = true
+    create  = true
+    update  = false
+    process = false
+  }
+}
+
+#############################################################################
+# LOCAL FILE
+#############################################################################
+
+resource "local_file" "post-config" {
+  depends_on = [azurerm_storage_container.ct]
+
+  filename = "${path.module}/backend-config.txt"
+  content  = <<EOF
+storage_account_name = ${var.stateStorageAccountName}
+container_name = ${var.stateContainerName}
+key = "terraform.tfstate"
+sas_token = "${data.azurerm_storage_account_sas.stateSasToken.sas}"
+
+  EOF
+}
