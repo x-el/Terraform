@@ -17,3 +17,7 @@ variable "stateStorageAccountName" {
 variable "stateContainerName" {
   default = "terraform-state"
 }
+
+variable "stateFileName" {
+  default = "testing-stateData_terraform.tfstate"
+}
