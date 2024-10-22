@@ -2,5 +2,8 @@
 # IMPORTS
 ##################################################################################
 
-# AKV Import command:
-# terraform import azurerm_key_vault.example /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/mygroup1/providers/Microsoft.KeyVault/vaults/vault1
+# AKV
+import {
+    to = azurerm_key_vault.aspfatesttfakv
+    id= "/subscriptions/3b4e37d3-b3bc-4d14-b7cc-542c313518f7/resourceGroups/Test-Terraform-Import/providers/Microsoft.KeyVault/vaults/aspfatestterraformimport"
+}
